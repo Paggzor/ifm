@@ -1,0 +1,70 @@
+ifndef GW_SRC_DIR
+GW_PROJECT_ROOT ?= $(shell for a in 1 2 3 4 5 6 7 8; do file="$${b}Makefile.project_config"; if [ -f $${b}Makefile.project_config ]; then cd $${b}.; pwd; break; fi; b="../$$b"; done)
+include $(GW_PROJECT_ROOT)/Makefile.project_config
+endif
+
+
+GW_PKG_SRC_DIR    ?=build/$(GW_PLATFORM)-$(GW_BUILD_TYPE)
+GW_AUTOCONF_FLAGS+= --prefix=$(GW_STAGE_DIR)
+
+GW_PKG_OUTPUT_DIR := build/$(GW_PLATFORM)-$(GW_BUILD_TYPE)
+GW_PATCH_DIR := patches/$(GW_PKG_SRC_DIR)
+
+
+ifdef GW_PKG_ZIP_BASE
+
+build/%.unpacked : %.tgz
+	@mkdir -p build
+	@rm -rf tmp_unpack
+	@mkdir tmp_unpack
+	rm -rf $(GW_PKG_SRC_DIR)
+	tar xzf $< -C tmp_unpack
+	mv tmp_unpack/* $(GW_PKG_SRC_DIR)
+	@rm -rf tmp_unpack
+	@touch $@
+
+build/%.unpacked : %.tar.gz
+	@mkdir -p build
+	@rm -rf tmp_unpack
+	@mkdir tmp_unpack
+	rm -rf $(GW_PKG_SRC_DIR)
+	tar xzf $< -C tmp_unpack
+	mv tmp_unpack/* $(GW_PKG_SRC_DIR)
+	@rm -rf tmp_unpack
+	@touch $@
+
+$(GW_PKG_SRC_DIR)/configure : build/$(GW_PKG_ZIP_BASE).unpacked
+
+unpack: build/$(GW_PKG_ZIP_BASE).unpacked
+
+
+endif  #GW_PKG_ZIP_BASE
+
+# ---------- Patching - including compile-date if used ----------
+GW_PATCH_FILES:=$(shell [ -d $(GW_PATCH_DIR)/ ] && find $(GW_PATCH_DIR)/* -type f )
+# Skall köras innan configure, build och export. Alltid om compile-date-patchningendast om patchar updaterats för att inte trigga onödiga buids.
+build/$(GW_PKG).patched : $(GW_PKG_SRC_DIR)/configure $(GW_PATCH_FILES)
+	@mkdir -p build
+	@if [ -d $(GW_PATCH_DIR) ]; then cp -fa $(GW_PATCH_DIR) .; fi
+	@touch $@
+	@echo Patched OK!
+	
+
+# ---------- Configure ----------
+$(GW_PKG_OUTPUT_DIR)/Makefile: build/$(GW_PKG).patched
+	@mkdir -p $(GW_STAGE_DIR)
+	@mkdir -p $(GW_PKG_OUTPUT_DIR)
+	cd $(GW_PKG_OUTPUT_DIR) && ./configure $(GW_AUTOCONF_FLAGS)
+
+# ---------- Build ----------
+build: $(GW_PKG_OUTPUT_DIR)/Makefile
+	@make -s $(GW_PARALELL_MAKE_FLAG) -C $(dir $<)
+ifdef VERBOSE
+	@make $(GW_PARALELL_MAKE_FLAG) -C $(dir $<) install
+else
+	@make -s $(GW_PARALELL_MAKE_FLAG) -C $(dir $<) install > /dev/null 
+endif
+
+clean: 
+	@rm -rf build
+	@rm -rf tmp_unpack
