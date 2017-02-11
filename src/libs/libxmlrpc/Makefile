@@ -6,6 +6,8 @@ endif
 GW_PKG_ZIP_BASE:=xmlrpc-c-1.39.11
 
 
+GW_PARALELL_MAKE_FLAG="-j1"
+
 include ../Makefile.rules.autoconf
 
 post-build:
