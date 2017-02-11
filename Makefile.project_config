@@ -1,0 +1,87 @@
+GW_PROJECT_ROOT ?= $(shell for a in 1 2 3 4 5 6 7 8; do file="$${b}Makefile.project_config"; if [ -f $${b}Makefile.project_config ]; then cd $${b}.; pwd; break; fi; b="../$$b"; done)
+
+GW_SRC_DIR        := $(GW_PROJECT_ROOT)/src
+GW_STAGE_BASE_DIR := $(GW_PROJECT_ROOT)/staging
+GW_SCRIPTS_DIR    := $(GW_PROJECT_ROOT)/tools
+GW_DOXY_BASE_DIR  := $(GW_STAGE_BASE_DIR)/doc
+GW_APP_DIR        := $(GW_SRC_DIR)/apps
+GW_LIB_DIR        := $(GW_SRC_DIR)/libs
+GW_EXPORT_DIR     := gw_export
+
+GW_STAGE_DIR = $(GW_STAGE_BASE_DIR)/$(GW_PLATFORM)-$(GW_BUILD_TYPE)
+
+GW_PATH=$(GW_SCRIPTS_DIR):$(GW_STAGE_BASE_DIR)/host-release/bin
+export PATH:=$(GW_PATH):$(PATH)
+
+#Autodetection of parameters
+GW_CURR_DIR           := $(shell pwd)
+GW_PARALELL_MAKE_FLAG ?= -j$(shell $(GW_SCRIPTS_DIR)/get-no-processors.sh)
+GW_CURR_DATE          = $(shell date +%Y-%m-%d)
+
+GW_PKG_PYTHON_VITUALENV_NAME=gw_python
+GW_PKG_PYTHON_VIRTUALENV_DIR=$(GW_STAGE_BASE_DIR)/host-release/virtualenv/
+GW_PKG_PYTHON_VIRTUALENV_ACTIVATE=$(GW_PKG_PYTHON_VIRTUALENV_DIR)/$(GW_PKG_PYTHON_VITUALENV_NAME)/bin/activate
+
+GW_PYTHON_ENV_REQUIREMENTS:=openpyxl
+
+
+SHELL:=/bin/bash
+
+# Platform specific settings
+
+
+ifeq ($(MAKECMDGOALS),local-release)
+
+GW_PLATFORM   := local
+GW_BUILD_TYPE := release
+
+endif
+
+
+ifeq ($(MAKECMDGOALS),local-debug)
+
+GW_PLATFORM   := local
+GW_BUILD_TYPE := debug
+
+endif
+
+
+#ifeq ($(MAKECMDGOALS),host)
+# Assume values for targets such as clean, doc etc. for proper access to the tools staging
+GW_PLATFORM   ?= host
+GW_BUILD_TYPE ?= release
+
+#endif
+
+
+# Common rules used by all files (move out as a makefile.common.rules file?)
+
+usage:
+	@echo "make targets: "
+	@echo "    host, local-release, local-debug, clean, doc, usage"
+	@echo "    export - generate a zip-file of the lib/app suitable for export"
+	@echo "optional env: "
+	@echo "    VERBOSE=1   tell cmake to be verbose"
+	@echo ""
+	@echo "Optional flag:"
+	@echo "    -s    silence make"
+	
+	
+
+# Common targets, possibly move out of this file
+.PHONY: unpack pre-build build post-build 
+unpack: 
+pre-build:  #User hook, source will be unpacked (if packed) before here.
+build:
+post-build:  #User hook
+
+# user targets
+.PHONY: local-release local-debug host clean doc
+local-release: unpack pre-build build post-build
+local-debug  : unpack pre-build build post-build
+host         : unpack pre-build build post-build
+
+.PHONY: clean doc
+clean:
+doc:
+
