@@ -62,8 +62,9 @@ if(BUILD_STATIC_LIBS)
     o3d3xx_camera_static
     ${LIB_glog}
     ${Boost_LIBRARIES}
-    ${LIB_xmlrpcxx}
-    ${LIB_xmlrpc_clientxx}
+#    ${LIB_xmlrpcxx}
+#    ${LIB_xmlrpc_clientxx}
+    ${XMLRPC_LIBRARIES}   #Fix by axel. ALL libraries need to be included :p
     )
 
   set_target_properties(o3d3xx_camera_static PROPERTIES

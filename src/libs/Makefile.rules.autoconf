@@ -51,9 +51,12 @@ build/$(GW_PKG).patched : $(GW_PKG_SRC_DIR)/configure $(GW_PATCH_FILES)
 	
 
 # ---------- Configure ----------
+
+$(GW_PKG_OUTPUT_DIR)/Makefile: 
 $(GW_PKG_OUTPUT_DIR)/Makefile: build/$(GW_PKG).patched
 	@mkdir -p $(GW_STAGE_DIR)
 	@mkdir -p $(GW_PKG_OUTPUT_DIR)
+	export PATH="$(GW_STAGE_DIR)/bin/:$(PATH)"; echo $(shell echo $$PATH)
 	cd $(GW_PKG_OUTPUT_DIR) && ./configure $(GW_AUTOCONF_FLAGS)
 
 	

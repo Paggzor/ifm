@@ -83,7 +83,7 @@ get_ubuntu_version(${UBUNTU_VERSION})
 ################################################
 ## Bring in dependent projects
 ################################################
-find_package(XMLRPC REQUIRED c++ client)
+find_package(XMLRPC REQUIRED c++2 client)  #Fix c++ -> c++2
 find_package(Boost REQUIRED COMPONENTS program_options system)
 
 ################################################

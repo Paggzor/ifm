@@ -89,6 +89,8 @@ endif(BUILD_EXE_DUMP)
 #-----------------------------------------------
 # o3d3xx-config
 #-----------------------------------------------
+
+#message(FATAL_ERROR "libs: ${XMLRPC_LIBRARIES}")
 if(BUILD_EXE_CONFIG)
   add_executable(o3d3xx-config o3d3xx-config.cpp)
 

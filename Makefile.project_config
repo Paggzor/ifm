@@ -10,15 +10,10 @@ GW_EXPORT_DIR     := gw_export
 
 GW_STAGE_DIR = $(GW_STAGE_BASE_DIR)/$(GW_PLATFORM)-$(GW_BUILD_TYPE)
 
-GW_PATH=$(GW_SCRIPTS_DIR):$(GW_STAGE_BASE_DIR)/host-release/bin
-export PATH:=$(GW_PATH):$(PATH)
-
 #Autodetection of parameters
 GW_CURR_DIR           := $(shell pwd)
 GW_PARALELL_MAKE_FLAG ?= -j$(shell $(GW_SCRIPTS_DIR)/get-no-processors.sh)
 GW_CURR_DATE          = $(shell date +%Y-%m-%d)
-
-SHELL:=/bin/bash
 
 # Platform specific settings
 
@@ -45,6 +40,9 @@ GW_PLATFORM   ?= host
 GW_BUILD_TYPE ?= release
 
 #endif
+GW_PATH=$(GW_SCRIPTS_DIR):$(GW_STAGE_BASE_DIR)/host-release/bin
+export PATH:=$(GW_PATH):$(GW_STAGE_DIR)/bin:$(PATH)
+SHELL:=/bin/bash
 
 
 # Common rules used by all files (move out as a makefile.common.rules file?)
