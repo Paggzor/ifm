@@ -2,7 +2,7 @@ GW_PROJECT_ROOT ?= $(shell for a in 1 2 3 4 5 6 7 8; do file="$${b}Makefile.proj
 
 GW_SRC_DIR        := $(GW_PROJECT_ROOT)/src
 GW_STAGE_BASE_DIR := $(GW_PROJECT_ROOT)/staging
-GW_SCRIPTS_DIR    := $(GW_PROJECT_ROOT)/tools
+GW_SCRIPTS_DIR    := $(GW_PROJECT_ROOT)/scripts
 GW_DOXY_BASE_DIR  := $(GW_STAGE_BASE_DIR)/doc
 GW_APP_DIR        := $(GW_SRC_DIR)/apps
 GW_LIB_DIR        := $(GW_SRC_DIR)/libs
@@ -17,13 +17,6 @@ export PATH:=$(GW_PATH):$(PATH)
 GW_CURR_DIR           := $(shell pwd)
 GW_PARALELL_MAKE_FLAG ?= -j$(shell $(GW_SCRIPTS_DIR)/get-no-processors.sh)
 GW_CURR_DATE          = $(shell date +%Y-%m-%d)
-
-GW_PKG_PYTHON_VITUALENV_NAME=gw_python
-GW_PKG_PYTHON_VIRTUALENV_DIR=$(GW_STAGE_BASE_DIR)/host-release/virtualenv/
-GW_PKG_PYTHON_VIRTUALENV_ACTIVATE=$(GW_PKG_PYTHON_VIRTUALENV_DIR)/$(GW_PKG_PYTHON_VITUALENV_NAME)/bin/activate
-
-GW_PYTHON_ENV_REQUIREMENTS:=openpyxl
-
 
 SHELL:=/bin/bash
 

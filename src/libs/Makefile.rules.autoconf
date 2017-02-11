@@ -56,6 +56,7 @@ $(GW_PKG_OUTPUT_DIR)/Makefile: build/$(GW_PKG).patched
 	@mkdir -p $(GW_PKG_OUTPUT_DIR)
 	cd $(GW_PKG_OUTPUT_DIR) && ./configure $(GW_AUTOCONF_FLAGS)
 
+	
 # ---------- Build ----------
 build: $(GW_PKG_OUTPUT_DIR)/Makefile
 	@make -s $(GW_PARALELL_MAKE_FLAG) -C $(dir $<)
