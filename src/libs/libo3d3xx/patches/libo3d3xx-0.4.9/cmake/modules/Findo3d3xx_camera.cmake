@@ -1,14 +1,14 @@
 find_path(O3D3XX_CAMERA_INCLUDE_DIRS
   NAMES o3d3xx_camera.h
-  PATHS /opt/libo3d3xx/include /usr/include /usr/local/include /usr/local/libo3d3xx/include
-  NO_DEFAULT_PATH
+#  PATHS /opt/libo3d3xx/include /usr/include /usr/local/include /usr/local/libo3d3xx/include
+#  NO_DEFAULT_PATH
   DOC "o3d3xx_camera Include directory"
   )
 
 find_library(O3D3XX_CAMERA_LIBRARIES
   NAMES o3d3xx_camera libo3d3xx_camera_static.a
-  PATHS /opt/libo3d3xx/lib /usr/lib /usr/local/lib /usr/local/libo3d3xx/lib
-  NO_DEFAULT_PATH
+#  PATHS /opt/libo3d3xx/lib /usr/lib /usr/local/lib /usr/local/libo3d3xx/lib
+#  NO_DEFAULT_PATH
   DOC "o3d3xx_camera shared object file"
   )
 
@@ -22,6 +22,9 @@ get_filename_component(
 include(
  "${O3D3XX_CAMERA_LIBRARY_DIR}/o3d3xx_camera/o3d3xx_camera-config-version.cmake"
  )
+include(
+ "${O3D3XX_CAMERA_LIBRARY_DIR}/o3d3xx_camera/o3d3xx_camera-targets.cmake"  #Added by axel
+)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(O3D3XX_CAMERA
