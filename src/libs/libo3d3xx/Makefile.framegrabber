@@ -3,17 +3,12 @@ GW_PROJECT_ROOT ?= $(shell for a in 1 2 3 4 5 6 7 8; do file="$${b}Makefile.proj
 include $(GW_PROJECT_ROOT)/Makefile.project_config
 endif
 
+GW_PKG=framegrabber
 GW_PKG_SRC_DIR:=libo3d3xx-0.4.9
+GW_PKG_SRC_SUB_DIR:=$(GW_PKG_SRC_DIR)/modules/$(GW_PKG)/
+GW_PKG_OUTPUT_DIR ?= build/$(GW_PLATFORM)-$(GW_BUILD_TYPE)/$(GW_PKG)
 
-%/CMakeLists.txt : %.tar.gz
-	@tar xzf $<
-	@touch $@
+GW_CMAKE_FLAGS+=-DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF
 
-build: $(GW_PKG_SRC_DIR)/CMakeLists.txt
-	 make -f Makefile.camera $(MAKECMDGOALS)
-	 make -f Makefile.framegrabber $(MAKECMDGOALS)
-	 make -f Makefile.image $(MAKECMDGOALS)
-	 
-clean:
-	rm -rf build
-	rm -rf $(GW_PKG_SRC_DIR)
+include ../Makefile.cmake.rules
+

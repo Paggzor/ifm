@@ -52,11 +52,12 @@ if(BUILD_STATIC_LIBS)
               STATIC $<TARGET_OBJECTS:o3d3xx_framegrabber>)
   target_link_libraries(
     o3d3xx_framegrabber_static
-    ${O3D3XX_CAMERA_LIBRARIES}
+#    ${O3D3XX_CAMERA_LIBRARIES}   #Fix by axel
+    o3d3xx_camera_static
     ${LIB_glog}
     ${Boost_LIBRARIES}
-    ${LIB_xmlrpcxx}
-    ${LIB_xmlrpc_clientxx}
+#    ${LIB_xmlrpcxx}
+#    ${LIB_xmlrpc_clientxx}
     )
 
   set_target_properties(o3d3xx_framegrabber_static PROPERTIES
