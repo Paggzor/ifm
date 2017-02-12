@@ -20,7 +20,7 @@ endif
 
 GW_CURRENT_DIR:=$(shell pwd)
 GW_PKG_SRC_DIR     ?=$(GW_PKG)
-GW_PKG_SRC_SUB_DIR ?=$(shell pwd)/$(GW_PKG_SRC_DIR)
+GW_PKG_SRC_SUB_DIR ?=$(GW_PKG_SRC_DIR)
 
 GW_CMAKE_FLAGS+= -DCMAKE_INSTALL_PREFIX=$(GW_STAGE_DIR) -DCMAKE_PREFIX_PATH=$(GW_STAGE_DIR) -DCMAKE_BUILD_TYPE=$(GW_BUILD_TYPE)
 
@@ -58,6 +58,15 @@ build/%.unpacked : %.tar.gz
 	@mkdir -p build
 	@touch $@
 
+build/%.unpacked : %.zip
+	@rm -rf tmp_unpack
+	@mkdir tmp_unpack
+	@unzip $< -d tmp_unpack
+	@mv tmp_unpack/* $(GW_PKG_SRC_DIR)
+	@rm -rf tmp_unpack
+	@mkdir -p build
+	@touch $@
+	
 $(GW_PKG_SRC_DIR)/CMakeLists.txt : build/$(GW_PKG_ZIP_BASE).unpacked
 
 unpack: build/$(GW_PKG_ZIP_BASE).unpacked
