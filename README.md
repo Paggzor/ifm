@@ -18,6 +18,7 @@
 Tar man bort alla "-pthread" som är efter forcerad static så funkar det. Men är det värt besväret?
 Ska PCL användas på target?
 
+* PCL är en drake och verkar ha glömt bort 
 
 Notes övrigt:
 Bör vi vergen använda image modulen som en lågnivåkälla då den drar in så mkt depencencies??
