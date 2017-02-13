@@ -135,6 +135,7 @@ include_directories(
   ${O3D3XX_CAMERA_INCLUDE_DIRS}
   ${O3D3XX_FRAMEGRABBER_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
+  ${EIGEN_INCLUDE_DIRS}   #By axel, this should really come from PCL_INCLUDE_DIRS, but its a bug in PCL. TODO: Fix it there.
   ${OpenCV_INCLUDE_DIRS}
   )
 link_directories(

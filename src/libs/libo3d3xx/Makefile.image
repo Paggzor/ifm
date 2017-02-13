@@ -1,0 +1,14 @@
+ifndef GW_SRC_DIR
+GW_PROJECT_ROOT ?= $(shell for a in 1 2 3 4 5 6 7 8; do file="$${b}Makefile.project_config"; if [ -f $${b}Makefile.project_config ]; then cd $${b}.; pwd; break; fi; b="../$$b"; done)
+include $(GW_PROJECT_ROOT)/Makefile.project_config
+endif
+
+GW_PKG=image
+GW_PKG_SRC_DIR:=libo3d3xx-0.4.9
+GW_PKG_SRC_SUB_DIR:=$(GW_PKG_SRC_DIR)/modules/$(GW_PKG)/
+GW_PKG_OUTPUT_DIR ?= build/$(GW_PLATFORM)-$(GW_BUILD_TYPE)/$(GW_PKG)
+
+GW_CMAKE_FLAGS+=-DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_EXE_VIEWER=NO
+
+include ../Makefile.cmake.rules
+

@@ -1,4 +1,7 @@
 libglog
 libcurl
 libxmlrpc
+libeigen3
+libpcl
+libopencv
 libo3d3xx
