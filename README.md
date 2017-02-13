@@ -18,7 +18,8 @@
 Tar man bort alla "-pthread" som är efter forcerad static så funkar det. Men är det värt besväret?
 Ska PCL användas på target?
 
-* PCL är en drake och verkar ha glömt bort 
+* PCL är en drake och verkar ha glömt bort libflanns include-dir. Fulpatchade det
+i libo3d3xx istället...
 
 Notes övrigt:
 Bör vi vergen använda image modulen som en lågnivåkälla då den drar in så mkt depencencies??
