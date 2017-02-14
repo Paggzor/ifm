@@ -69,4 +69,18 @@ if(BUILD_STATIC_LIBS)
     DESTINATION lib
     EXPORT o3d3xx_framegrabber-targets
     )
+
+set(PKG_CONFIG_OUTPUT_REQUIRES_PRIVATE "o3d3xx_camera")
+set(PKG_CONFIG_OUTPUT_LIBS "-lo3d3xx_framegrabber_static")
+
+#Hack in private libs that lack pkg-config files.
+foreach( ABS_LIB ${LIB_glog} ${Boost_LIBRARIES} )
+  get_filename_component( LIB ${ABS_LIB} NAME_WE )
+  string(REGEX REPLACE "^lib" "" LIB ${LIB})   #By axel: Is there a better way to do this thats not platform dependent?
+  set(PKG_CONFIG_OUTPUT_LIBS_PRIVATE "${PKG_CONFIG_OUTPUT_LIBS_PRIVATE} -l${LIB}")
+endforeach()
+
+configure_file(pkg-config-template.pc.in ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/o3d3xx_framegrabber.pc @ONLY)
+install( DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/ DESTINATION lib/pkgconfig)
+
 endif(BUILD_STATIC_LIBS)

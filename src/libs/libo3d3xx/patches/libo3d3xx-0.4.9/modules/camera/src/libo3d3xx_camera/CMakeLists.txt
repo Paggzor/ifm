@@ -76,4 +76,31 @@ if(BUILD_STATIC_LIBS)
     DESTINATION lib
     EXPORT o3d3xx_camera-targets
     )
+
+
+set(PKG_CONFIG_OUTPUT_REQUIRES_PRIVATE "xmlrpc")
+set(PKG_CONFIG_OUTPUT_LIBS "-lo3d3xx_camera_static")
+
+#ideally boost and glog should also be listed as a required lib like xmlrpc, but
+#because they lack pkg-config files we add them manually as private libs
+foreach( ABS_LIB ${LIB_glog} ${Boost_LIBRARIES} )
+  get_filename_component( LIB ${ABS_LIB} NAME_WE )
+  string(REGEX REPLACE "^lib" "" LIB ${LIB})   #By axel: Is there a better way to do this thats not platform dependent?
+  set(PKG_CONFIG_OUTPUT_LIBS_PRIVATE "${PKG_CONFIG_OUTPUT_LIBS_PRIVATE} -l${LIB}")
+endforeach()
+
+#Kangfr: Some different stuff to try
+#set(PKG_CONFIG_OUTPUT_LIBS "-lo3d3xx_camera_static")
+#MESSAGE( STATUS "Kangfr Boost_LIBRARIES:         " ${Boost_LIBRARIES} )
+#MESSAGE( STATUS "Kangfr XMLRPC_LIBRARIES:        " ${XMLRPC_LIBRARIES} )
+#MESSAGE( STATUS "Kangfr LIB_glog:                " ${LIB_glog} )
+#Convert lists of link libraries into -lstdc++ -lm etc..
+#foreach(LIB ${CMAKE_CXX_IMPLICIT_LINK_LIBRARIES} ${PLATFORM_LIBS})
+#  set(PRIVATE_LIBS "${PRIVATE_LIBS} -l${LIB}")
+#endforeach()
+#string (REPLACE ";" " " PKG_CONFIG_OUTPUT_LIBS_PRIVATE "${PKG_CONFIG_OUTPUT_LIBS_PRIVATE}")
+
+configure_file(pkg-config-template.pc.in ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/o3d3xx_camera.pc @ONLY)
+install( DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/ DESTINATION lib/pkgconfig)
+
 endif(BUILD_STATIC_LIBS)

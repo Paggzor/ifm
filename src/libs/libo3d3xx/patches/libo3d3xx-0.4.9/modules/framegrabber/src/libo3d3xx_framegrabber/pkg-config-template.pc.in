@@ -1,0 +1,15 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: @CMAKE_PROJECT_NAME@
+Description: @PKG_CONFIG_OUTPUT_DESCRIPTION@
+Version: @PKG_CONFIG_OUTPUT_VERSION@
+URL: @PKG_CONFIG_OUTPUT_URL@
+Requires: @PKG_CONFIG_OUTPUT_REQUIRES@
+Requires.private: @PKG_CONFIG_OUTPUT_REQUIRES_PRIVATE@
+Conflicts: @PKG_CONFIG_OUTPUT_CONFLICTS@
+Libs: -L${libdir} @PKG_CONFIG_OUTPUT_LIBS@
+Libs.private: @PKG_CONFIG_OUTPUT_LIBS_PRIVATE@
+Cflags: -I${includedir} @PKG_CONFIG_OUTPUT_CFLAGS@
+

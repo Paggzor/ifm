@@ -9,7 +9,8 @@ CONFIG(debug, debug|release) {
 #    INCLUDEPATH+=../../../staging/local-release/include/
 }
 
-INCLUDEPATH += libo3d3xx-0.4.9/modules/camera/include/
+INCLUDEPATH += libo3d3xx-0.4.9/modules/camera/include/ \
+    libo3d3xx-0.4.9/modules/framegrabber/include
 
 
 SOURCES += \ 
@@ -67,6 +68,12 @@ HEADERS += \
     libo3d3xx-0.4.9/modules/framegrabber/include/o3d3xx_framegrabber.h
 
 DISTFILES += \
-    libo3d3xx-0.4.9/CMakeLists.txt \
-    libo3d3xx-0.4.9/modules/camera/CMakeLists.txt
+    patches/libo3d3xx-0.4.9/modules/camera/src/libo3d3xx_camera/pkg-config-template.pc.in \
+    patches/libo3d3xx-0.4.9/modules/framegrabber/src/libo3d3xx_framegrabber/pkg-config-template.pc.in \
+    patches/libo3d3xx-0.4.9/cmake/modules/Findo3d3xx_camera.cmake \
+    patches/libo3d3xx-0.4.9/cmake/modules/Findo3d3xx_framegrabber.cmake \
+    patches/libo3d3xx-0.4.9/modules/camera/src/libo3d3xx_camera/CMakeLists.txt \
+    patches/libo3d3xx-0.4.9/modules/camera/CMakeLists.txt \
+    patches/libo3d3xx-0.4.9/modules/framegrabber/src/libo3d3xx_framegrabber/CMakeLists.txt \
+    patches/libo3d3xx-0.4.9/modules/image/CMakeLists.txt
 
